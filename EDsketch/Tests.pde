@@ -33,6 +33,9 @@ byte test(int lvl) {
     case 3:
       response = earVarianceTest();
       break;
+    case 4:
+      response = testSynth();
+      break;
     default:
       response = 1;
   }
@@ -42,26 +45,26 @@ byte test(int lvl) {
 // A simple test to check ear state
 byte testSimple() {
   byte response = 0;
-  if (leftMouth.getValue() > 100 )
-  {
-    indicator(1);
-  }
+  if (leftMouth.getValue() > 200 )
+    { indicator(1,1); } else { indicator(1,0); }
   if (leftEar.isPressed()) // if the left ear has been turned on, trigger indicator 2
-  {
-    indicator(2);
-  }
-  if (leftMouth.getValue() > 100 )
-  {
-    indicator(3);
-  }
+    { indicator(2,1); } else { indicator(2,0); }
+  if (rightMouth.getValue() > 200 )
+    { indicator(3,1); } else { indicator(3,0); }
   if (rightEar.isPressed()) // if the right ear has been turned on, trigger indicator 5
-  {
-    indicator(5);
-  }
-  if (centerMouth.getValue() > 100 )
-  {
-    indicator(4);
-  }
+    { indicator(5,1); }
+  if (centerMouth.getValue() > 250 )
+    { indicator(6,centerMouth.getValue()*2); }
+  if (rightEye.getValue() > 50 )
+    { indicator(4,0); }
+  return response;
+}
+
+// A simple synthesizer 
+byte testSynth() {
+  byte response = 0;
+  indicator(6,avgMouth()*2);
+  indicator(6,avgEyes());
   return response;
 }
 
@@ -70,19 +73,19 @@ byte testSymmetry() {
   byte response = 0;
   byte success = 0;
   if (leftEar.isPressed() == rightEar.isPressed()) {  // if the left and right ear are the same
-    indicator(1);
+    indicator(1,0);
     response += 1;
   }
   if (potEquiv(rightEye.getValue(),leftEye.getValue(),25)){  // if the right and left eyes are the same
-    indicator(2);
+    indicator(2,0);
     response += 1;
   }
   if (potEquiv(leftMouth.getValue(),rightMouth.getValue(),25)){   // if the left and right mouth sliders are roughly equivalent
-    indicator(3);
+    indicator(3,0);
     response += 1;
   }
   if (potEquiv(centerMouth.getValue(),avgMouth(),25)){  // if the center mouth slider is equal to the avg
-    indicator(4);
+    indicator(4,0);
     response += 1;
   }
   if (response >= 4) success = 1;  // if all the requirements are met, set success to 1
@@ -105,29 +108,29 @@ byte earVarianceTest() {
     case 0:
       break;
     case 1:
-      indicator(1);
-      indicator(2);
+      indicator(1,0);
+      indicator(2,0);
       if (potEquiv(rightEye.getValue(),leftEye.getValue(),10)) {
-        indicator(3);
+        indicator(3,0);
         response += 1;
       }
       if (centerMouth.getValue() >= 25) {
-        indicator(4);
+        indicator(4,0);
         response += 1;
       }
       if (response == 2 ) success = 1;
       break;
     case 2:
-      indicator(2);
+      indicator(2,0);
       if (potEquiv(rightMouth.getValue(),leftMouth.getValue(),10)) {
-        indicator(3);
+        indicator(3,0);
         response += 1;
       }
       if (centerMouth.getValue() >= 50 && centerMouth.getValue() <= 100) {
-        indicator(4);
+        indicator(4,0);
         response += 1;
       }
-      if (response >= 1) indicator(1);
+      if (response >= 1) indicator(1,0);
       if (response >= 2) success = 1;
       break;
   }

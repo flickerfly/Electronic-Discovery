@@ -58,8 +58,8 @@ byte serial = 1;
 
 void setup() {
   buzzer.setTempo(1000);
-  if ( debug == 1 || serial == 1 ) {  // serial is only used for debug or setting diff lvl this time, remove if this changes
-    Serial.begin(115200);           // set up Serial library at 115200 bps
+  if ( debug == 1 || serial == 1 ) {  // serial is only used for debug or setting diff lvl (remove when this changes)
+    Serial.begin(115200);           // set up Serial library speed
   }
   nose[0].on();
   nose[1].on();
@@ -69,7 +69,7 @@ void setup() {
 void loop()
 {
   completed = test(difficultyLvl);       // Run the level of difficulty test and return the results
-  if (completed == 1) success();             // Check if difficulty level has changed
+  if (completed == 1) success();             // Check if completion indicator has changed
   difficultyLvl = readDifficulty();            // Set difficulty level
   completed = 0;
   if (debug >= 3) {  // if debug is greater than 2, track each loop, good for getting a feel for how quickly 
@@ -78,35 +78,18 @@ void loop()
     loopCount += 1;
     Serial.println(loopCount);
   }
-  //noseTest();
-}
-
-void noseTest() {
-  
-  nose[0].fadeOut(1500); // actually fade in
-  nose[0].fadeIn(1500);  // avtually fade out
-  nose[0].on(); //with the multi-color LED, this actually turns it off
-  
-  nose[1].fadeOut(1500);
-  nose[1].fadeIn(1500);
-  nose[1].on();
-  
-  nose[2].fadeOut(1500);
-  nose[2].fadeIn(1500);
-  nose[2].on();
 }
 
 int readDifficulty() {                          // Edit to allow setting of various difficulty levels
   return difficultyLvl;    
   if (serial == 1) {
-    // FUTURE: permit setting difficulty level via serial or dip switch see serial variable
+    // NOTE: permit setting difficulty level via serial or dip switch see serial variable
   }
 }
 
 void success() {   // make nose blue
-  for (byte i = 0; i < numHairs; i++) {          // loop through each pin...
-    hairs[i].blink(500,5);     // blink 5 times, 100ms for the total run (50ms on and 50ms off)
-    buzzer.beep(880);   // find better crescendo buzz success
-  }
-  completed += 1;
+  hairs[2].on();   // Turn blue nose on
+  buzzer.beep(880);   // NOTE: find better crescendo buzz success
+  hairs[2].off();  // Turn blue nose off
+  completed = 0; //reset the completed indicator
 }
