@@ -48,18 +48,21 @@ byte test(int lvl) {
 // A simple test to check ear state
 byte testSimple() {
   byte response = 0;
+  byte check = 0;
   if (leftMouth.getValue() > 200 )
-    { indicator(1,1); } else { indicator(1,0); }
+    { indicator(1,1); check++; } else { indicator(1,0); }
   if (leftEar.isPressed()) // if the left ear has been turned on, trigger indicator 2
     { indicator(2,1); } else { indicator(2,0); }
   if (rightMouth.getValue() > 200 )
-    { indicator(3,1); } else { indicator(3,0); }
+    { indicator(3,1); check++; } else { indicator(3,0); }
   if (rightEar.isPressed()) // if the right ear has been turned on, trigger indicator 5
     { indicator(5,1); }
-  if (centerMouth.getValue() > 250  && leftEye.getValue() >25 )
-    { indicator(6,leftEye.getValue()*2); }
+  if (rightEar.isPressed()  && leftEye.getValue() >25 )
+    { indicator(6,leftEye.getValue()*2); check++; }
   if (rightEye.getValue() > 50 )
-    { indicator(4,0); }
+    { indicator(4,0); check++; }
+    
+  if (check > 2) { response = 1; }  
   return response;
 }
 
@@ -143,28 +146,30 @@ byte earVarianceTest() {
 
 byte testDisplay() {
   byte response = 0;
+  byte check = 0;
     
   // Ears
-  if (leftEar.isPressed()) {indicator(7,1); } else {indicator(7,0); }
-  if (leftEar.isPressed()) {indicator(8,1); } else {indicator(8,0); } 
+  if (leftEar.isPressed()) {indicator(14,1); } else {indicator(14,0); }
+  if (rightEar.isPressed()) {indicator(15,1); } else {indicator(15,0); }
   
   // Eyes
-  if (rightEye.getValue() > 150 && rightEye.getValue() < 200) {indicator(10,1); } else {indicator(10,0); }
-  if (leftEye.getValue() > 150 && leftEye.getValue() < 200) {indicator(11,1); } else {indicator(11,0); }
-  if (rightEye.getValue() > 200) {indicator(12,1); } else {indicator(12,0); }
-  if (leftEye.getValue() > 200) {indicator(13,1); } else {indicator(13,0); }
+  if (rightEye.getValue() > 100 && rightEye.getValue() < 200) {indicator(10,1); } else {indicator(10,0); }
+  if (leftEye.getValue() > 100 && leftEye.getValue() < 200) {indicator(11,1); } else {indicator(11,0); }
+  if (rightEye.getValue() > 200) {indicator(12,1); check++; } else {indicator(12,0); }
+  if (leftEye.getValue() > 200) {indicator(13,1); check++; } else {indicator(13,0); }
   
   // Mouth
-  if (rightMouth.getValue() > 150) {indicator(14,1); } else {indicator(14,0); }
-  if (leftMouth.getValue() > 150) {indicator(15,1); } else {indicator(15,0); }  
-  if (centerMouth.getValue() > 150) {indicator(16,1); } else {indicator(16,0); }
+  //if (rightMouth.getValue() < 200) {indicator(8,1); check++;} else {indicator(8,0); }
+  //if (leftMouth.getValue() < 200) {indicator(9,1); check++;} else {indicator(9,0); }  
+  //if (centerMouth.getValue() < 200) {indicator(7,1); check++;} else {indicator(7,0); }
+  indicator(8,rightMouth.getValue());
+  indicator(9,leftMouth.getValue());
+  indicator(7,centerMouth.getValue());
   
-  if (leftEar.isPressed() || rightEar.isPressed() ) { 
-    indicator(6,leftEye.getValue());
-    indicator(6,rightEye.getValue());
-  }
-
+  
+  if (rightEar.isPressed() || rightEar.isPressed() ) { indicator(6,leftEye.getValue()); indicator(6,rightEye.getValue()); }
   if (leftEar.isPressed() && rightEar.isPressed() ) { indicator(9,1); } else { indicator(9,0); }
-
+  
+  if (check == 5) {response = 1;}
   return response;
 }

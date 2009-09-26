@@ -42,9 +42,9 @@ LED* redHairs[2] = { &hairs[2], &hairs[3] };
 // Nose
 const byte numNose = 3;
 LED nose[numNose] = { LED(9), LED(10), LED(11) };
-LED* redNose = &nose[0];
-LED* greenNose = &nose[1];
-LED* blueNose = &nose[2];
+LED* redNose = &nose[2];
+LED* greenNose = &nose[0];
+LED* blueNose = &nose[1];
 
 // Misc
 byte completed = 0; // by default, the test is incomplete
@@ -81,15 +81,35 @@ void loop()
 }
 
 int readDifficulty() {                          // Edit to allow setting of various difficulty levels
-  return difficultyLvl;    
+  if ( completed == 1 ) {
+    switch (difficultyLvl) {
+      case 1:
+        difficultyLvl = 1;
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        difficultyLvl = 5;
+        break;
+      default:
+        break; 
+    }
+  }  
+  return difficultyLvl;
   if (serial == 1) {
     // NOTE: permit setting difficulty level via serial or dip switch see serial variable
   }
 }
 
 void success() {   // make nose blue
-  hairs[2].on();   // Turn blue nose on
-  buzzer.beep(880);   // NOTE: find better crescendo buzz success
-  hairs[2].off();  // Turn blue nose off
-  completed = 0; //reset the completed indicator
+  nose[0].on(); //turn the nose off (they're inverted)
+  nose[1].on();
+  nose[2].on();
+  
+  blueNose->blink(1500,5);   // Turn blue nose on
+  indicator(5,5);  //sound the buzzer pattern 5 times
 }

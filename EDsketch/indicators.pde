@@ -50,10 +50,11 @@ void indicator(int type, int mode) {
           break;
       }
       break;
-    case 5:  // sound the buzzer
-      buzzer.playTone(440,2);
-      buzzer.playTone(770,5);
-      buzzer.playTone(440,2);
+    case 5:  // sound the buzzer 'mode' times in a set pattern (used in the success indicator)
+      for (int i=0; i <= mode; i++){
+        buzzer.playTone(770,5);
+        buzzer.playTone(440,5);
+      }
       break;
     case 6:
       buzzer.beep(mode);
@@ -62,13 +63,13 @@ void indicator(int type, int mode) {
     case 7:  //address the first nose color
       switch (mode) {
         case 0:
-          nose[0].off();
+          nose[0].on(); //the on and off are inverted
           break;
         case 1:
-          nose[0].on();
+          nose[0].off();
           break;
         default:
-          nose[0].off();
+          nose[0].setValue(mode);
           break;
       }
       break;
@@ -76,13 +77,13 @@ void indicator(int type, int mode) {
     case 8:  //address the second nose color
       switch (mode) {
         case 0:
-          nose[1].off();
-          break;
-        case 1:
           nose[1].on();
           break;
-        default:
+        case 1:
           nose[1].off();
+          break;
+        default:
+          nose[1].setValue(mode);
           break;
       }
       break;
@@ -90,13 +91,13 @@ void indicator(int type, int mode) {
     case 9:  //address the third nose color
       switch (mode) {
         case 0:
-          nose[2].off();
-          break;
-        case 1:
           nose[2].on();
           break;
-        default:
+        case 1:
           nose[2].off();
+          break;
+        default:
+          nose[2].setValue(mode);
           break;
       }
       break;
