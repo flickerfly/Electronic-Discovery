@@ -58,5 +58,131 @@ void indicator(int type, int mode) {
     case 6:
       buzzer.beep(mode);
       break;
+      
+    case 7:  //address the first nose color
+      switch (mode) {
+        case 0:
+          nose[0].off();
+          break;
+        case 1:
+          nose[0].on();
+          break;
+        default:
+          nose[0].off();
+          break;
+      }
+      break;
+      
+    case 8:  //address the second nose color
+      switch (mode) {
+        case 0:
+          nose[1].off();
+          break;
+        case 1:
+          nose[1].on();
+          break;
+        default:
+          nose[1].off();
+          break;
+      }
+      break;
+      
+    case 9:  //address the third nose color
+      switch (mode) {
+        case 0:
+          nose[2].off();
+          break;
+        case 1:
+          nose[2].on();
+          break;
+        default:
+          nose[2].off();
+          break;
+      }
+      break;
+      
+      case 10:  //address the first hair
+      switch (mode) {
+        case 0:
+          hairs[0].off();
+          break;
+        case 1:
+          hairs[0].on();
+          break;
+        default:
+          hairs[0].off();
+          break;
+      }
+      break;
+      
+      case 11:  //address the the second hair
+      switch (mode) {
+        case 0:
+          hairs[1].off();
+          break;
+        case 1:
+          hairs[1].on();
+          break;
+        default:
+          hairs[1].off();
+          break;
+      }
+      break;
+      
+      case 12:  //address the the third hair
+      switch (mode) {
+        case 0:
+          hairs[2].off();
+          break;
+        case 1:
+          hairs[2].on();
+          break;
+        default:
+          hairs[2].off();
+          break;
+      }
+      break;
+      
+      case 13:  //address the the fourth hair
+      switch (mode) {
+        case 0:
+          hairs[3].off();
+          break;
+        case 1:
+          hairs[3].on();
+          break;
+        default:
+          hairs[3].off();
+          break;
+      }
+      break;
+      
+      case 14:  //address the the fifth hair
+      switch (mode) {
+        case 0:
+          hairs[4].off();
+          break;
+        case 1:
+          hairs[4].on();
+          break;
+        default:
+          hairs[4].off();
+          break;
+      }
+      break;
+      
+      case 15:  //address the the sixth hair
+      switch (mode) {
+        case 0:
+          hairs[5].off();
+          break;
+        case 1:
+          hairs[5].on();
+          break;
+        default:
+          hairs[5].off();
+          break;
+      }
+      break;
   }
 }

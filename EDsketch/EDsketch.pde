@@ -16,7 +16,7 @@
  */
 
 //settings
-byte difficultyLvl = 1;
+byte difficultyLvl = 5;
 
 // Ears 
 Button leftEar = Button(12, PULLUP);
@@ -51,9 +51,9 @@ byte completed = 0; // by default, the test is incomplete
 Summer buzzer = Summer(6); // setup a buzzer object
 int loopCount = 0;
 // if you want to see debug information turn on
-byte debug = 3;
+byte debug = 0;
 // for setting difficultyLvl via serial connection 
-byte serial = 1;
+byte serial = 0;
 
 
 void setup() {

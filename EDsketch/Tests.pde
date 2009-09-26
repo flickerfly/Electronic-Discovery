@@ -36,6 +36,9 @@ byte test(int lvl) {
     case 4:
       response = testSynth();
       break;
+    case 5:
+      response = testDisplay();
+      break;
     default:
       response = 1;
   }
@@ -53,8 +56,8 @@ byte testSimple() {
     { indicator(3,1); } else { indicator(3,0); }
   if (rightEar.isPressed()) // if the right ear has been turned on, trigger indicator 5
     { indicator(5,1); }
-  if (centerMouth.getValue() > 250 )
-    { indicator(6,centerMouth.getValue()*2); }
+  if (centerMouth.getValue() > 250  && leftEye.getValue() >25 )
+    { indicator(6,leftEye.getValue()*2); }
   if (rightEye.getValue() > 50 )
     { indicator(4,0); }
   return response;
@@ -136,4 +139,32 @@ byte earVarianceTest() {
   }
   
   return success;
+}
+
+byte testDisplay() {
+  byte response = 0;
+    
+  // Ears
+  if (leftEar.isPressed()) {indicator(7,1); } else {indicator(7,0); }
+  if (leftEar.isPressed()) {indicator(8,1); } else {indicator(8,0); } 
+  
+  // Eyes
+  if (rightEye.getValue() > 150 && rightEye.getValue() < 200) {indicator(10,1); } else {indicator(10,0); }
+  if (leftEye.getValue() > 150 && leftEye.getValue() < 200) {indicator(11,1); } else {indicator(11,0); }
+  if (rightEye.getValue() > 200) {indicator(12,1); } else {indicator(12,0); }
+  if (leftEye.getValue() > 200) {indicator(13,1); } else {indicator(13,0); }
+  
+  // Mouth
+  if (rightMouth.getValue() > 150) {indicator(14,1); } else {indicator(14,0); }
+  if (leftMouth.getValue() > 150) {indicator(15,1); } else {indicator(15,0); }  
+  if (centerMouth.getValue() > 150) {indicator(16,1); } else {indicator(16,0); }
+  
+  if (leftEar.isPressed() || rightEar.isPressed() ) { 
+    indicator(6,leftEye.getValue());
+    indicator(6,rightEye.getValue());
+  }
+
+  if (leftEar.isPressed() && rightEar.isPressed() ) { indicator(9,1); } else { indicator(9,0); }
+
+  return response;
 }
