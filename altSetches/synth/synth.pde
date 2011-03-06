@@ -1,6 +1,6 @@
 #include <Summer.h>
 #include <LED.h>
-#include <Potentiameter.h>
+#include <Potentiometer.h>
 #include <Button.h>
 
 /* 
@@ -11,8 +11,6 @@
  */
 
 // settings
-int eyeLvl = 0;
-int mouthLvl = 0;
 
 // Ears 
 Button leftEar = Button(12, PULLUP);
@@ -42,6 +40,9 @@ LED* redNose = &nose[0];
 LED* greenNose = &nose[1];
 LED* blueNose = &nose[2];
 
+// Buzzer
+Summer buzzer = Summer(6); // setup a buzzer object
+
 void setup() {
   buzzer.setTempo(1000);
   nose[0].on();
@@ -58,15 +59,17 @@ void loop() {
 
 void setHair() {
   // light the hairs sequentially according to the total mouth sliders
-  mouthLvl = totalMouth(); //divide by something that will make this 0-6
-  //set the # of LEDs equal to mouthLvl
+  int mouthLvl = totalMouth()/512; //divide by something that will make this 0-5 
+  // 1023*3 = 3069 /512 = 5.99 which is connected to the 6 LEDs
+  // set the # of LEDs equal to mouthLvl
+  for(int i=0; i<=6; i++) hairs[i].off();
+  for(int i=0; i<=mouthLvl; i++) hairs[i].fadeIn(2000);
 }
 
 void setNose() {
   // set on color to one switch, another to
-  earLvl = totalEars();
-  earOne = leftEar.isPressed();
-  earTwo = rightEar.isPressed();
+  byte earOne = leftEar.isPressed();
+  byte earTwo = rightEar.isPressed();
 
   // if both eyes, go green and break
   // if eyeOne go red
@@ -74,13 +77,13 @@ void setNose() {
 }
 
 void setTempo() {
-  tempo = totalMouth();
+  int tempo = totalMouth()/10; //maximum of 3069
   buzzer.setTempo(tempo);
 }
 
 void soundBuzzer() {
   // use one eye and the other eye as the two parameters to the buzzer
-  freq = leftEye.getValue();
-  beats = rightEye.getValue();
+  int freq = leftEye.getValue();
+  int beats = rightEye.getValue();
   buzzer.playTone(freq,beats);
 }
