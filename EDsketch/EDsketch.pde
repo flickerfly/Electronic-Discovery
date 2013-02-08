@@ -16,7 +16,7 @@
  */
 
 //settings
-byte difficultyLvl = 5;
+byte difficultyLvl = 1;
 
 // Ears 
 Button leftEar = Button(12, PULLUP);
